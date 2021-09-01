@@ -9,7 +9,7 @@ import { ListItem, Avatar } from 'react-native-elements'
 const categories = require("../services/data/categories.json");
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     
    const custom_search_result = [
     {
@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
     return (
         <View>
-            <Box />
+            <Box navigation/>
             <MySearchBar />
             
             <CategoryGrid>
@@ -50,13 +50,3 @@ export default function HomeScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-container:{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-
-
-});

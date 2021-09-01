@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements'
 
 const kcraftek_color = "hsla(120, 60%, 26%, 1)";
 
-const Box = () => {
+const Box = ({navigation}) => {
 
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
@@ -19,7 +19,7 @@ const Box = () => {
                     name='bars'
                     type='font-awesome-5'
                     color={"white"}
-                    onPress={() => console.log('hello')} 
+                    onPress={() => console.log("open drawer?")} 
                 />
             </View>
             <View style={styles.position}>

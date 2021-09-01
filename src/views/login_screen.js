@@ -1,14 +1,36 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import { Alert } from 'react-native';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import InputTextField from "../components/InputTextField";
-import { registration } from '../services/firebase_functions';
+import { Input } from 'react-native-elements';
+import { signIn } from '../services/firebase_functions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const kcraftek_color = "hsla(120, 60%, 26%, 1)";
 
 
 
 export default function LoginScreen({navigation}) {
+    const [email, setEmail] = useState("");
+    const [ password, setPassword] = useState("");
 
+    useEffect(() => {
+        console.log(email);
+        console.log(password);
+    },[email, password]);
+
+    const validateEmail = (myEmail) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(myEmail).toLowerCase());
+    }
+
+    const handlelogin = (email, password) => {
+        if (validateEmail(email))
+            signIn(email, password);
+        else{
+            Alert.alert("Invalid Email!", "Make your to type in the correct Email");
+        }
+    }
     
 
   return (
@@ -33,20 +55,38 @@ export default function LoginScreen({navigation}) {
                     </View>
 
                     <Text style={[styles.text, { color: "#ABB4BD", fontSize: 15, textAlign: "center", marginVertical: 20 }]}>or</Text>
-
-                    <InputTextField style={styles.inputTitle} title="Email" />
-                    <InputTextField
-                        style={{
-                            marginTop: 32,
-                            marginBottom: 8
-                        }}
-                        title="Password"
-                        isSecure={true}
+                    <Input
+                        label={"Your Email Address"}
+                        onChangeText={value => setEmail(value)}
+                        placeholder='user@gmail.com'
+                        leftIcon={
+                            <Icon
+                            name='envelope'
+                            size={24}
+                            color='black'
+                            />
+                        }
                     />
-
+                    
+                    <Input
+                        label={"Password"}
+                        placeholder='password'
+                        onChangeText={value => setPassword(value)}
+                        leftIcon={
+                            <Icon
+                            name='lock'
+                            size={24}
+                            color='black'
+                            />
+                        }
+                        secureTextEntry={true}
+                    />
+                    <View style={styles.subContainer}>
                     <Text style={[styles.text, styles.link, { textAlign: "right" }]}>Forgot Password?</Text>
 
-                    <TouchableOpacity style={styles.submitContainer} onPress={() => {navigation.navigate("HomeScreen")}}>
+                    <TouchableOpacity style={styles.submitContainer} onPress={() => {
+                        handlelogin(email, password);
+                    }}>
                         <Text
                             style={[
                                 styles.text,
@@ -60,7 +100,7 @@ export default function LoginScreen({navigation}) {
                             Login
                         </Text>
                     </TouchableOpacity>
-
+                    </View>
                     <Text
                         style={[
                             styles.text,
@@ -83,7 +123,10 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       backgroundColor: "#fff",
-      paddingHorizontal: 30
+      paddingHorizontal: 0
+  },
+  subContainer: {
+    paddingHorizontal: 30
   },
   text: {
       //fontFamily: "Avenir Next",

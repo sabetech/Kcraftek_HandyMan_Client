@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, Image} from "react-native";
 import firebase from 'firebase';
 
 export default function LoadingScreen({navigation}) {
@@ -11,7 +11,7 @@ export default function LoadingScreen({navigation}) {
     checkifLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
             if (user){
-                navigation.navigate('HomeScreen');
+                navigation.navigate('MainDrawer');
             }else{
                 navigation.navigate('LoginScreen');
             }
@@ -20,7 +20,7 @@ export default function LoadingScreen({navigation}) {
 
     return (
             <View style={styles.container}>
-                <Text>Loading ...</Text>
+                <Image source={require("../../assets/kcraftek_logo.png")} style={{width: 90, height: 70}}/>
             </View>     
     );
 }
