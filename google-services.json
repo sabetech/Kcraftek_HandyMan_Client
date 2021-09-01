@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "470969195639",
+    "project_id": "kcraftek-v2",
+    "storage_bucket": "kcraftek-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470969195639:android:66101c20a99ed331aa7a72",
+        "android_client_info": {
+          "package_name": "com.saybe.kcraftek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "470969195639-mp2ctgeldc3ssifj1jdju5lfv6eo49dp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saybe.kcraftek",
+            "certificate_hash": "c8eb9f874faec314fa4a8207dc24ff6e14b05813"
+          }
+        },
+        {
+          "client_id": "470969195639-do2jnq9p5h332aea3l0rvn46dnh9f1gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUO3C-suPQqEkwL4idB73a70ZlMO187rM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "470969195639-do2jnq9p5h332aea3l0rvn46dnh9f1gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,34 @@
+{   
+    "categories":[
+        {
+            "id": 1,
+            "category": "Air Conditioner",
+            "iconName": "ac-unit",
+            "iconType": "material"
+        },
+        {
+            "id": 2,
+            "category": "Plumbing",
+            "iconName": "room-service",
+            "iconType": "material"
+        },
+        {
+            "id": 3,
+            "category": "Carpentry",
+            "iconName": "carpenter",
+            "iconType": "material"
+        },
+        {
+            "id": 4,
+            "category": "Electrical",
+            "iconName": "flash-on",
+            "iconType": "material"
+        },
+        {
+            "id": 5,
+            "category": "Painting",
+            "iconName": "imagesearch-roller",
+            "iconType": "material"
+        }
+    ]
+}

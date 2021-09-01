@@ -8,6 +8,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+sha1-fingerprint.important
+config/keys.js 
 
 # macOS
 .DS_Store
