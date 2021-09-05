@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements'
 
 const kcraftek_color = "hsla(120, 60%, 26%, 1)";
 
-const Box = ({navigation}) => {
+const Box = ({navigation, name}) => {
 
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
@@ -19,12 +19,12 @@ const Box = ({navigation}) => {
                     name='bars'
                     type='font-awesome-5'
                     color={"white"}
-                    onPress={() => console.log("open drawer?")} 
+                    onPress={() => navigation.openDrawer()}
                 />
             </View>
             <View style={styles.position}>
                 <Text style={styles.welcomeText}>
-                    Welcome 
+                    Welcome {name.substring(0, name.indexOf(" "))}
                 </Text>
             </View>
         </View>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-start"
     },
     welcomeText: {
-        fontSize: 32,
+        fontSize: 24,
         color: "white"   
     }
 })

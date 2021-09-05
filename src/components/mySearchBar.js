@@ -1,11 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, View } from "react-native";
 import { SearchBar } from 'react-native-elements';
 import { ProgressBar, Colors } from 'react-native-paper';
 
 
-const MySearchBar = () => {
+const MySearchBar = ({setShowList}) => {
     const [searchText, setSearchText] = useState("");
+
+    useEffect(() => {
+        setShowList(searchText.length > 0);
+    },[searchText])
 
     return (
         <View style={styles.searchBar} >

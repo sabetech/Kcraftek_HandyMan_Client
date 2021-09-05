@@ -3,7 +3,7 @@ import { Icon } from 'react-native-elements'
 import { StyleSheet, View, Text } from "react-native";
 const kcraftek_color = "hsla(20, 18%, 54%, 1)";
 
-const CategoryIcon = ({category}) => {
+const CategoryIcon = ({category, navigation}) => {
 
     return (
         <View style={styles.iconView}>
@@ -13,7 +13,7 @@ const CategoryIcon = ({category}) => {
                 name={category.iconName}
                 type={category.iconType}
                 color={kcraftek_color}
-                onPress={() => console.log('hello')} />
+                onPress={() => navigation.navigate("MapScreen")} />
             
             <Text style={styles.iconTextView}>{category.category}</Text>
         </View>
