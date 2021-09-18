@@ -37,3 +37,21 @@ export async function loggingOut() {
     Alert.alert('There is something wrong!', err.message);
   }
 }
+
+export async function searchTasks(searchText){
+  const db = firebase.firestore();
+  
+  const snapshot = await db.collection("tasks")
+    .where('searchTags', 'array-contains', searchText.toLowerCase())
+    .get();
+
+  return snapshot.docs.reduce((acc, doc) => {
+    const task = doc.data();
+    
+    return acc.concat(task);
+  },[]);
+}
+
+export async function findArtisanWithOccupation(occupation) {
+  
+}

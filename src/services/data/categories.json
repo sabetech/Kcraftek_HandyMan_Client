@@ -4,7 +4,19 @@
             "id": 1,
             "category": "Air Conditioner",
             "iconName": "ac-unit",
-            "iconType": "material"
+            "iconType": "material",
+            "cost": 100,
+            "itemID": "item1",
+            "numberOfTimesSearchedFor": 0,
+            "occupation": "AC Repairer",
+            "searchTags": [
+                "ac",
+                "air-conditioner",
+                "air conditioning",
+                "servicing"
+            ],
+            "taskName": "AC servicing"
+  
         },
         {
             "id": 2,
@@ -32,3 +44,18 @@
         }
     ]
 }
+
+Object {
+    "category": "AIR CONDITIONING",
+    "cost": 100,
+    "itemID": "item1",
+    "numberOfTimesSearchedFor": 0,
+    "occupation": "AC Repairer",
+    "searchTags": Array [
+      "ac",
+      "air-conditioner",
+      "air conditioning",
+      "servicing",
+    ],
+    "taskName": "AC servicing",
+  }
