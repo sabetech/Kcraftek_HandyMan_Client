@@ -38,12 +38,9 @@ export default function HomeScreen({navigation}) {
     return (
         <View>
             <Box navigation={navigation} name={userName}/>
-            <MySearchBar setIs_searching={setIsSearching}/>
-            { !isSearching &&
             <CategoryGrid>
                 {categories && categories.categories.map((item, i) => <CategoryIcon key={i} category={item} navigation={navigation} />)}
             </CategoryGrid>
-            }
         </View>
     );
 }

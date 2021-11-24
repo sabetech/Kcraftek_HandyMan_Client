@@ -13,7 +13,9 @@ const CategoryIcon = ({category, navigation}) => {
                 name={category.iconName}
                 type={category.iconType}
                 color={kcraftek_color}
-                onPress={() => navigation.navigate("MapScreen")} />
+                onPress={() => navigation.navigate("ServicesScreen", {
+                    category: category
+                })} />
             
             <Text style={styles.iconTextView}>{category.category}</Text>
         </View>

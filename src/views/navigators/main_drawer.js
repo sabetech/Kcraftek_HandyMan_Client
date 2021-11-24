@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrawerContent } from './navigator_content/drawer_content';
+import {DrawerContent} from './navigator_content/drawer_content';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import LoginScreen from '../login_screen';
@@ -16,11 +16,10 @@ export default function MainDrawer() {
                 initialRouteName="MyStackNavigator" 
                 drawerContent = {(props) => <DrawerContent {...props} />}
                 screenOptions={{ headerShown: false }}>
-
-                <Drawer.Screen name="MyStackNavigator" component={MyStackNavigator} />
+                    <Drawer.Screen name="MyStackNavigator" component={MyStackNavigator} />
                 <Drawer.Screen name="HomeScreen" component={HomeScreen} />
-                <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-            </Drawer.Navigator>
-        </NavigationContainer>
-    );
+                <Drawer.Screen name="LoginScreen" component={LoginScreen} /> 
+             </Drawer.Navigator>
+         </NavigationContainer>
+        );
 }

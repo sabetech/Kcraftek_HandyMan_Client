@@ -55,3 +55,18 @@ export async function searchTasks(searchText){
 export async function findArtisanWithOccupation(occupation) {
   
 }
+
+export async function getTasksWithCategory(category){
+  const db = firebase.firestore();
+
+  const snapshot = await db.collection("tasks")
+  .where('category', '==', category)
+  .get();
+
+  return snapshot.docs.reduce((acc, doc) => {
+    const service = doc.data();
+
+    return acc.concat(service);
+  }, []);
+
+}
