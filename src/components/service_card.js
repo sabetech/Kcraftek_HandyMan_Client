@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 
-function ServiceCard({service, modalSetVisible}){
+function ServiceCard({service, modalSetVisible, setClickedService}){
     const handleServiceClick = () => {
         modalSetVisible(true);
+        setClickedService(service)
     }
 
     return (

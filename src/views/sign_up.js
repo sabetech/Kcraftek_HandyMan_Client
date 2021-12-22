@@ -6,7 +6,7 @@ import { Input } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Button } from 'react-native-elements';
 import { registration } from '../services/firebase_functions';
-import PhoneInput from 'react-native-phone-input';
+//import PhoneInput from 'react-native-phone-input';
 
 const kcraftek_color = "hsla(120, 60%, 26%, 1)";
 

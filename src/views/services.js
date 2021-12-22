@@ -4,16 +4,17 @@ import { Appbar } from 'react-native-paper';
 import {View, ScrollView, ActivityIndicator, Dimensions, StyleSheet, Modal, Text, Pressable} from 'react-native';
 import ServiceCard from '../components/service_card';
 import { getTasksWithCategory } from '../services/firebase_functions';
+import MapScreen from './maps_screen';
 
 const kcraftek_color="hsla(120,60%,26%,1)";
 export default function ServicesScreen({navigation, route}){
     const [services, setServices] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [clickedService, setClickedService] = useState({});
     const category = route.params.category.category;
 
     useEffect(() => {
         getTasksWithCategory(category).then((response) => {
-            console.log(response);
             setServices(response);
         });
 
@@ -21,11 +22,16 @@ export default function ServicesScreen({navigation, route}){
 
     const _goBack = () => navigation.goBack();
 
-    const _preferredArtisan = () => {
+    const _proceed = () => {
         setModalVisible(false);
+        //show the map here ...
+        navigation.navigate('MapScreen', {
+                service: clickedService
+        }
+        );
     }
 
-    const _anyArtisan = () => {
+    const _cancel = () => {
         setModalVisible(false);
     }
 
@@ -44,13 +50,15 @@ export default function ServicesScreen({navigation, route}){
             
             <ScrollView style={styles.scrollViewServices}>
                 {
-                    (services.length > 0) && services.map((item, idx) => <ServiceCard key={idx} service={item} modalSetVisible={setModalVisible}/>)
+                    (services.length > 0) && services.map((item, idx) => <ServiceCard key={idx} service={item} 
+                                                modalSetVisible={setModalVisible}
+                                                setClickedService={setClickedService}/>)
                 }
             </ScrollView>
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
-                    transparent={true}
+                    transparent={false}
                     visible={modalVisible}
                     onRequestClose={() => {
                     Alert.alert("Modal has been closed.");
@@ -59,19 +67,19 @@ export default function ServicesScreen({navigation, route}){
                 >
                     <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Do you want any available Artisan or an Artisans in your locality</Text>
+                        <Text style={styles.modalText}>You are about to request for a/an {clickedService?.occupation}</Text>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => _preferredArtisan() }
+                            onPress={() => _proceed() }
                         >
-                            <Text style={styles.textStyle}>Artisans in Locality</Text>
+                            <Text style={styles.textStyle}>Proceed</Text>
                         </Pressable>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => _anyArtisan() }
+                            onPress={() => _cancel() }
                         >
-                            <Text style={styles.textStyle}>Any Available Artisan</Text>
-                        </Pressable>
+                            <Text style={styles.textStyle}>Cancel</Text>
+                        </Pressable>                       
                     </View>
                     </View>
                 </Modal>
@@ -90,11 +98,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 22,
+        backgroundColor: 'rgba(52, 52, 52, 0.8)'
+        
     },
     modalView: {
         margin: 10,
-        backgroundColor: "white",
+        backgroundColor: "#ffffff",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",

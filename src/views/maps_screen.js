@@ -7,6 +7,8 @@ import * as Location from 'expo-location';
 import { color } from 'react-native-elements/dist/helpers';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Alert } from 'react-native';
+import { findArtisanWithOccupation } from '../services/firebase_functions';
+import ArtisanIcon from './map_assets/artisan_icon';
 
 
 export default function MapScreen({route, navigation}) {
@@ -14,12 +16,14 @@ export default function MapScreen({route, navigation}) {
     const [errorMsg, setErrorMsg] = useState(null);
     const [region, setRegion] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [task, setTask] = useState(null);
+    const [service, setService] = useState(null);
+    const [searchStatus, setsearchStatus] = useState("Searching");
+    const [availableArtisans, setAvailableArtisans] = useState([]);
     
     useEffect(() => {
-        
-        console.log(route);
-        setTask(route.params.task);
+        setLoading(true);
+        //setsearchStatus(`Searching for ${route.params.service.occupation}`)
+
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
@@ -31,23 +35,39 @@ export default function MapScreen({route, navigation}) {
             let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Lowest });
             setLocation(location);
             saveRegion(location);
-            console.log(location);
-            setLoading(false);
+            
+            
           })();
+
+          //look for artisans with the occupations
+          searchForArtisanWithOccupation(route.params.service.occupation);
     }, []);
 
     const saveRegion = (mylocation) => {
         setRegion({
             latitude: mylocation.coords.latitude,
             longitude: mylocation.coords.longitude,
-            latitudeDelta: 0.04,
-            longitudeDelta: 0.05,
+            latitudeDelta: 0.009,
+            longitudeDelta: 0.005,
         });
     }
 
-    const searchForArtisanWithOccupation = (occupation) => {
+    const searchForArtisanWithOccupation = async (occupation) => {
+        console.log(occupation);
+        const artisans = await findArtisanWithOccupation(occupation);
+        await console.log(artisans);
+        await setLoading(false);
+        await setsearchStatus(`Found some ${occupation}s in your area!`);
 
-        
+        //put them on a map and send a request to them by modifying their field in
+        setAvailableArtisans(artisans);
+        sendRequestToArtisans(artisans)
+
+    }
+
+    const sendRequestToArtisans = async (artisans) => {
+
+
 
     }
 
@@ -56,8 +76,8 @@ export default function MapScreen({route, navigation}) {
             <View style={styles.floatingCard}>
                 <Card>
                     <Card.Content>
-                        <Title><Icon name='rowing'/>Searching For {task?.occupation}</Title>
-                        <Paragraph>Card content</Paragraph>
+                        <Title><Icon name='rowing'/>{searchStatus}</Title>
+                        <Paragraph>{!loading && "Kcraftek is contacting available artisans for your request."}</Paragraph>
                     </Card.Content>
                     <Card.Actions style={styles.cardActions}>
                         <Button onPress={() => navigation.goBack()}>Cancel</Button>
@@ -69,14 +89,28 @@ export default function MapScreen({route, navigation}) {
                 initialRegion={{ 
                                     latitude: 0,
                                     longitude: 0,
-                                    latitudeDelta: 0.09,
-                                    longitudeDelta: 0.02
+                                    latitudeDelta: 0.0003,
+                                    longitudeDelta: 0.0002
                                 }}
                 region={region}
             >
-                {location && <Marker 
+                {location && <Marker key={1}
                     coordinate={{latitude: location?.coords.latitude, longitude: location?.coords.longitude}}
-                />}
+                >
+                    
+                    </Marker>}
+
+                {
+                    (availableArtisans.length > 0) && availableArtisans.map(artisan => <Marker key={artisan.name}
+                                    coordinate={{latitude:artisan.location.lat,longitude:artisan.location.lng}}
+                                    title={"Artisan"}
+                                    icon={require('../../assets/artisan_map_icon_small.png')}
+                                    >
+                                        </Marker>
+                                        )
+                }
+                    
+                    
             </MapView>
         </View>
     )
