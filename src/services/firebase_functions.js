@@ -68,7 +68,9 @@ export async function findArtisanWithOccupation(occupation) {
 
 export async function sendArtisansNotification(artisans) {
   const db = firebase.firestore();
-
+  artisans.map((artisan) => {
+    db.collection("artisan_users").doc('')
+  });
   
 }
 

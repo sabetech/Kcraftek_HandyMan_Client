@@ -7,7 +7,7 @@ import * as Location from 'expo-location';
 import { color } from 'react-native-elements/dist/helpers';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Alert } from 'react-native';
-import { findArtisanWithOccupation } from '../services/firebase_functions';
+import { findArtisanWithOccupation, sendArtisansNotification } from '../services/firebase_functions';
 import ArtisanIcon from './map_assets/artisan_icon';
 
 
@@ -67,7 +67,7 @@ export default function MapScreen({route, navigation}) {
 
     const sendRequestToArtisans = async (artisans) => {
 
-
+        sendArtisansNotification(artisans);
 
     }
 
