@@ -23,10 +23,6 @@ export default function SignUpScreen({navigation}) {
     //TO DO perform validation
     const handleRegisterSubmit = () => {
 
-        console.log(email);
-        console.log(password);
-        console.log(fullName);
-        console.log(phoneNumber);
 
         registration(email, password, fullName, phoneNumber);
         navigation.navigate("LoadingScreen");

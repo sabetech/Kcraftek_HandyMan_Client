@@ -35,7 +35,7 @@ const MySearchBar = ({setIs_searching}) => {
     const debouncedChangeHandler = useMemo(
         () => debounce((searchTerm)=>{
             //make query from here ...
-            console.log(searchTerm);
+            
             searchForTasks(searchTerm);
 
         }, 2000)
@@ -49,7 +49,7 @@ const MySearchBar = ({setIs_searching}) => {
     }
 
     const searchForArtisan = (task) => {
-        console.log(task);
+        
 
         navigation.navigate("MapScreen", {
             task: task

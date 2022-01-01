@@ -8,7 +8,11 @@ import { color } from 'react-native-elements/dist/helpers';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Alert } from 'react-native';
 import { findArtisanWithOccupation, sendArtisansNotification } from '../services/firebase_functions';
+import * as firebase from 'firebase';
+import "firebase/firestore";
 import ArtisanIcon from './map_assets/artisan_icon';
+import { useUserInfo } from '../contexts/AuthContext';
+
 
 
 export default function MapScreen({route, navigation}) {
@@ -18,7 +22,9 @@ export default function MapScreen({route, navigation}) {
     const [loading, setLoading] = useState(true);
     const [service, setService] = useState(null);
     const [searchStatus, setsearchStatus] = useState("Searching");
+    const [statusUpdate, setStatusUpdate] = useState("");
     const [availableArtisans, setAvailableArtisans] = useState([]);
+    const clientInfoContext = useUserInfo();
     
     useEffect(() => {
         setLoading(true);
@@ -31,10 +37,14 @@ export default function MapScreen({route, navigation}) {
               Alert.alert("Permission Error", errorMsg)
               return;
             }
-      
-            let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Lowest });
-            setLocation(location);
-            saveRegion(location);
+            try{
+                let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Lowest });
+                setLocation(location);
+                saveRegion(location);
+            }catch(e){
+                console.log(e.message);
+            }
+            
             
             
           })();
@@ -53,12 +63,18 @@ export default function MapScreen({route, navigation}) {
     }
 
     const searchForArtisanWithOccupation = async (occupation) => {
-        console.log(occupation);
+        
         const artisans = await findArtisanWithOccupation(occupation);
-        await console.log(artisans);
         await setLoading(false);
-        await setsearchStatus(`Found some ${occupation}s in your area!`);
 
+        if (artisans.length > 0) {
+            await setsearchStatus(`Found some ${occupation}s in your area!`);
+            await setStatusUpdate(`Kcraftek is contacting available aritsans for you.`);
+        }
+        else {
+            await setsearchStatus(`No available Artisan Found!`);
+            return;
+        }
         //put them on a map and send a request to them by modifying their field in
         setAvailableArtisans(artisans);
         sendRequestToArtisans(artisans)
@@ -67,9 +83,30 @@ export default function MapScreen({route, navigation}) {
 
     const sendRequestToArtisans = async (artisans) => {
 
-        sendArtisansNotification(artisans);
+        sendArtisansNotification(artisans, clientInfoContext.userInfo, route.params.service);
 
     }
+
+    //obserse and artisan that will set it's request_status to accepted
+    useEffect(() => {
+        const db = firebase.firestore();
+        const unsubscribe = db.collection('artisan_users').where('request.client.id','==', clientInfoContext.userInfo.id)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.docChanges().forEach(change => {
+                    console.log("Is this observer running ... ");
+                    console.log(change.type);
+                    const data = change.doc.data();
+                    if (data.request.status == 'accepted') {
+                        setsearchStatus(`${data.name} has accepted the request!`);
+                        setStatusUpdate(`${data.name}, a ${data.occupations} is on his/her way to you`);
+                    }
+                //console.log('Modified Artisan: ', change.doc.data());
+                  
+                })
+            });
+
+    return unsubscribe;
+    },[])
 
     return (
         <View>
@@ -77,7 +114,7 @@ export default function MapScreen({route, navigation}) {
                 <Card>
                     <Card.Content>
                         <Title><Icon name='rowing'/>{searchStatus}</Title>
-                        <Paragraph>{!loading && "Kcraftek is contacting available artisans for your request."}</Paragraph>
+                        <Paragraph>{loading ? "Loading ..." : statusUpdate}</Paragraph>
                     </Card.Content>
                     <Card.Actions style={styles.cardActions}>
                         <Button onPress={() => navigation.goBack()}>Cancel</Button>

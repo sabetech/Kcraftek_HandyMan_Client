@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import firebaseConfig from './config/keys';
 import SignUpScreen from './src/views/sign_up';
 import MainDrawer from './src/views/navigators/main_drawer';
+import { ClientUserProvider } from './src/contexts/AuthContext';
 if (!firebase.apps.length) {
   
     firebase.initializeApp(firebaseConfig);
@@ -21,6 +22,8 @@ if (!firebase.apps.length) {
 const AppContainer = createAppContainer(AppSwitchNavigator);
 export default function App() {
     return (
-        <AppContainer />
+        <ClientUserProvider>
+            <AppContainer />
+        </ClientUserProvider>
     );
 }

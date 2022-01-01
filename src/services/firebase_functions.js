@@ -11,6 +11,7 @@ export async function registration(email, password, fullname, phoneNumber) {
     db.collection("client_users")
       .doc(currentUser.uid)
       .set({
+        id: currentUser.uid,
         email: currentUser.email,
         fullname: fullname,
         phonenumber: phoneNumber,
@@ -57,6 +58,7 @@ export async function findArtisanWithOccupation(occupation) {
 
   const snapshot = await db.collection("artisan_users")
     .where('occupations', '==', occupation)
+    .where('request.status', '==', 'idle')
     .get()  
 
   return snapshot.docs.reduce((acc, doc) => {
@@ -66,11 +68,25 @@ export async function findArtisanWithOccupation(occupation) {
   },[]);
 }
 
-export async function sendArtisansNotification(artisans) {
+export async function sendArtisansNotification(artisans, clientInfo, service) {
   const db = firebase.firestore();
-  artisans.map((artisan) => {
-    db.collection("artisan_users").doc('')
-  });
+  await artisans.map((artisan) => {
+    db.collection("artisan_users")
+        .where('request.status', '==', 'idle')
+        .where('is_active', '==', true)
+        .where('id', '==', artisan.id).get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach(function (doc){
+            doc.ref.update({
+              'request':{
+                'status': 'requesting',
+                'client': clientInfo,
+                'info': service
+              }
+            })
+          })
+        })});
+  
   
 }
 

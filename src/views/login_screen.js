@@ -14,11 +14,6 @@ export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState("");
     const [ password, setPassword] = useState("");
 
-    useEffect(() => {
-        console.log(email);
-        console.log(password);
-    },[email, password]);
-
     const validateEmail = (myEmail) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(myEmail).toLowerCase());

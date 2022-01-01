@@ -4,7 +4,7 @@ import { Appbar } from 'react-native-paper';
 import {View, ScrollView, ActivityIndicator, Dimensions, StyleSheet, Modal, Text, Pressable} from 'react-native';
 import ServiceCard from '../components/service_card';
 import { getTasksWithCategory } from '../services/firebase_functions';
-import MapScreen from './maps_screen';
+
 
 const kcraftek_color="hsla(120,60%,26%,1)";
 export default function ServicesScreen({navigation, route}){
@@ -18,6 +18,7 @@ export default function ServicesScreen({navigation, route}){
             setServices(response);
         });
 
+        return undefined;
     },[]);
 
     const _goBack = () => navigation.goBack();

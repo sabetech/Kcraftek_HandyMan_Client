@@ -5,12 +5,15 @@ import MySearchBar from "../components/mySearchBar";
 import CategoryIcon from '../components/categoryIcon';
 import CategoryGrid from '../components/categoryGrid';
 import * as firebase from 'firebase';
+import { useUserInfo } from '../contexts/AuthContext';
+
 
 const categories = require("../services/data/categories.json");
 
 
 export default function HomeScreen({navigation}) {
     let currentUserUID = firebase.auth().currentUser.uid;
+    const clientInfoContext = useUserInfo();
     const [userName, setUserName] = useState("");
     const [isSearching, setIsSearching] = useState(false);
     
@@ -28,6 +31,7 @@ export default function HomeScreen({navigation}) {
             } else {
                 let dataObj = doc.data();
                 setUserName(dataObj.fullname);
+                clientInfoContext.setUserInfo(dataObj);
             }
         }
 
