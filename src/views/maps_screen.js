@@ -45,8 +45,6 @@ export default function MapScreen({route, navigation}) {
                 console.log(e.message);
             }
             
-            
-            
           })();
 
           //look for artisans with the occupations

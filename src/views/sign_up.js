@@ -75,14 +75,14 @@ export default function SignUpScreen({navigation}) {
                         }
                     />
 
-                    <PhoneInput
+                    {/* <PhoneInput
                         ref={phoneInput}
                         defaultValue={value}
                         defaultCode="GH"
                         style={styles.phoneInput} 
                         value={phoneNumber}
                         onChangePhoneNumber={setPhoneNumber} 
-                    />
+                    /> */}
                     
                     <TouchableOpacity style={styles.submitContainer} onPress={handleRegisterSubmit}>
                         <Text
