@@ -41,14 +41,15 @@ export default function MapScreen({route, navigation}) {
                 let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Lowest });
                 setLocation(location);
                 saveRegion(location);
+                //look for artisans with the occupations
+                searchForArtisanWithOccupation(route.params.service.occupation);
             }catch(e){
                 console.log(e.message);
             }
             
           })();
 
-          //look for artisans with the occupations
-          searchForArtisanWithOccupation(route.params.service.occupation);
+          
     }, []);
 
     const saveRegion = (mylocation) => {
@@ -80,8 +81,12 @@ export default function MapScreen({route, navigation}) {
     }
 
     const sendRequestToArtisans = async (artisans) => {
-
-        sendArtisansNotification(artisans, clientInfoContext.userInfo, route.params.service);
+        const serviceInfo = {
+            ...route.params,
+            ...location
+        }
+        
+        sendArtisansNotification(artisans, clientInfoContext.userInfo, serviceInfo);
 
     }
 
