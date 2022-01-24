@@ -3,10 +3,8 @@ import { View, Text, TextInput, Alert, ScrollView, Keyboard ,StyleSheet, Image} 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Button } from 'react-native-elements';
 import { registration } from '../services/firebase_functions';
-//import PhoneInput from 'react-native-phone-input';
+
 
 const kcraftek_color = "hsla(120, 60%, 26%, 1)";
 
@@ -75,15 +73,18 @@ export default function SignUpScreen({navigation}) {
                         }
                     />
 
-                    {/* <PhoneInput
-                        ref={phoneInput}
-                        defaultValue={value}
-                        defaultCode="GH"
-                        style={styles.phoneInput} 
-                        value={phoneNumber}
-                        onChangePhoneNumber={setPhoneNumber} 
-                    /> */}
-                    
+                    <Input
+                        label={"Phone"}
+                        placeholder='+233 XX XXX XXXX'
+                        onChangeText={value => setPhoneNumber(value)}
+                        leftIcon={
+                            <Icon
+                                name='phone'
+                                size={24}
+                                color='black'
+                            />
+                        }
+                    />
                     <TouchableOpacity style={styles.submitContainer} onPress={handleRegisterSubmit}>
                         <Text
                             style={[
