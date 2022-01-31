@@ -38,7 +38,7 @@ export default function MapScreen({route, navigation}) {
               return;
             }
             try{
-                let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Lowest });
+                let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Lowest });
                 setLocation(location);
                 saveRegion(location);
                 //look for artisans with the occupations
